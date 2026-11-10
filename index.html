@@ -1,11 +1,289 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="es">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#f5f3ed">
+  <meta name="description" content="Conocé los emprendimientos de nuestra comunidad y encontrá tu próximo favorito.">
+  <title>Hecho cerca — Emprendimientos</title>
+  <link rel="stylesheet" href="style.css">
 </head>
 <body>
-    
+  <header class="topbar shell">
+    <a class="brand" href="#" aria-label="Hecho cerca, inicio">
+      <span class="brand-mark" aria-hidden="true">
+        <svg viewBox="0 0 24 24" fill="none"><path d="M12 20V10m0 4c-4.5 0-7-2.7-7-7 4.7 0 7 2.4 7 7Zm0-2c0-4.2 2.3-6.5 7-6.5 0 4.3-2.4 6.5-7 6.5Z" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      </span>
+      <span>hecho cerca<small>comunidad emprendedora</small></span>
+    </a>
+    <nav class="top-links" aria-label="Navegación principal">
+      <a href="#ficha">Emprendimiento</a>
+      <a class="catalog-link" href="#catalogo">
+        <svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><rect x="4" y="4" width="6" height="6" rx="1" stroke="currentColor" stroke-width="1.7"/><rect x="14" y="4" width="6" height="6" rx="1" stroke="currentColor" stroke-width="1.7"/><rect x="4" y="14" width="6" height="6" rx="1" stroke="currentColor" stroke-width="1.7"/><rect x="14" y="14" width="6" height="6" rx="1" stroke="currentColor" stroke-width="1.7"/></svg>
+        Ver catálogo
+      </a>
+    </nav>
+  </header>
+
+  <main>
+    <section class="intro shell">
+      <div class="eyebrow">Historias que inspiran</div>
+      <h1>Conocé quién está detrás<br class="desktop-break"> de cada proyecto.</h1>
+      <p>Ideas con identidad, hechas con dedicación y cerca tuyo.</p>
+    </section>
+
+    <section class="catalog-section shell" id="catalogo">
+      <div class="catalog-heading">
+        <div>
+          <div class="eyebrow">Explorá y encontrá</div>
+          <h2>Explorá el catálogo</h2>
+          <p>Un catálogo para descubrir y apoyar el talento local.</p>
+        </div>
+        <div class="catalog-tools">
+          <label class="search-wrap">
+            <svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><circle cx="10.8" cy="10.8" r="6.8" stroke="currentColor" stroke-width="1.7"/><path d="m16 16 4 4" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"/></svg>
+            <input class="search-input" id="searchInput" type="search" placeholder="Buscar emprendimiento..." aria-label="Buscar emprendimiento">
+          </label>
+          <select class="select-input" id="quickSelect" aria-label="Selector rápido de emprendimiento"></select>
+        </div>
+      </div>
+      <div class="catalog-panel">
+        <div class="business-grid" id="businessGrid"></div>
+        <div class="catalog-pagination" id="catalogPagination"></div>
+      </div>
+    </section>
+
+    <section class="detail-layout shell" id="ficha" aria-label="Detalle del emprendimiento">
+      <div class="gallery-card">
+        <div class="hero-image-wrap">
+          <img class="hero-image" id="heroImage" alt="">
+          <span class="photo-count" id="photoCount">
+            <svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><rect x="3.5" y="5" width="17" height="14" rx="2" stroke="currentColor" stroke-width="1.7"/><circle cx="9" cy="10" r="1.5" stroke="currentColor" stroke-width="1.5"/><path d="m5 17 5-4 3 2 3-3 4 4" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            <span>1 / 4 fotos</span>
+          </span>
+        </div>
+        <div class="thumbnail-row" id="thumbnailRow" aria-label="Galería de fotos"></div>
+      </div>
+
+      <article class="info-card">
+        <div class="detail-topline">
+          <span class="category-badge" id="categoryBadge"></span>
+          <span class="profile-number" id="profileNumber"></span>
+        </div>
+        <h2 id="businessName"></h2>
+        <p class="description" id="businessDescription"></p>
+
+        <div class="contact-section">
+          <h3 class="contact-heading">Conectá con el emprendimiento</h3>
+          <div class="social-grid" id="socialLinks"></div>
+        </div>
+        <div class="detail-footer">
+          <a class="back-link" href="#catalogo">
+            <svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M19 12H5m0 0 6 6m-6-6 6-6" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            Volver al catálogo
+          </a>
+          <div class="detail-controls" aria-label="Cambiar emprendimiento">
+            <button class="arrow-button" type="button" id="previousBusiness" aria-label="Emprendimiento anterior">
+              <svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="m15 18-6-6 6-6" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            </button>
+            <button class="arrow-button" type="button" id="nextBusiness" aria-label="Emprendimiento siguiente">
+              <svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="m9 18 6-6-6-6" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            </button>
+          </div>
+        </div>
+      </article>
+    </section>
+
+  </main>
+  <footer class="bottom-note">Hecho con <span aria-label="amor">♥</span> para impulsar lo local</footer>
+
+  <script>
+    const photoSets = [
+      [
+        "photo-1490645935967-10de6ba17061", "photo-1546549032-9571cd6b27df",
+        "photo-1509440159596-0249088772ff", "photo-1547592180-85f173990554"
+      ],
+      [
+        "photo-1490481651871-ab68de25d43d", "photo-1529139574466-a303027c1d8b",
+        "photo-1483985988355-763728e1935b", "photo-1490481651871-ab68de25d43d"
+      ],
+      [
+        "photo-1493106641515-6b5631de4bb9", "photo-1490312278390-ab64016e0aa9",
+        "photo-1494438639946-1ebd1d20bf85", "photo-1493106641515-6b5631de4bb9"
+      ],
+      [
+        "photo-1470252649378-9c29740c9fa8", "photo-1500530855697-b586d89ba3ee",
+        "photo-1501004318641-b39e6451bec6", "photo-1470252649378-9c29740c9fa8"
+      ],
+      [
+        "photo-1513364776144-60967b0f800f", "photo-1513475382585-d06e58bcb0e0",
+        "photo-1452860606245-08befc0ff44b", "photo-1513364776144-60967b0f800f"
+      ]
+    ];
+    const categories = ["Alimentos", "Indumentaria", "Diseño y deco", "Bienestar", "Arte y oficios"];
+    const names = ["Sabores de casa", "Ronda textil", "Casa brote", "Raíz natural", "Taller del sol"];
+
+    const businesses = Array.from({ length: 30 }, (_, index) => {
+      const id = index + 1;
+      const categoryIndex = index % categories.length;
+      const images = photoSets[categoryIndex].map((photo, photoIndex) =>
+        `https://images.unsplash.com/${photo}?auto=format&fit=crop&w=${photoIndex === 0 ? 1200 : 500}&q=85`
+      );
+      return {
+        id,
+        name: `${names[categoryIndex]} ${String(id).padStart(2, "0")}`,
+        category: categories[categoryIndex],
+        description: `Somos un emprendimiento independiente que nació de las ganas de crear algo propio y compartirlo con nuestra comunidad. Cada producto está pensado y elaborado con dedicación, cuidando los detalles y eligiendo materiales e ingredientes de calidad. Creemos en el valor de lo hecho a mano, en las ideas que se transforman con trabajo y en construir vínculos cercanos con quienes nos eligen. Gracias por acompañar este proyecto y ayudarnos a seguir creciendo.`,
+        images,
+        whatsapp: "5491100000000",
+        instagram: `hechocerca.emprendimiento${String(id).padStart(2, "0")}`,
+        website: "https://example.com",
+        email: "hola@emprendimiento.com"
+      };
+    });
+
+    const icon = {
+      whatsapp: '<svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M20 11.6a8 8 0 0 1-11.8 7l-4.2 1.1 1.1-4.1A8 8 0 1 1 20 11.6Z" stroke="currentColor" stroke-width="1.7" stroke-linejoin="round"/><path d="M9 8.5c.3-.5.6-.5.9-.5l.5.1.9 2c.1.2.1.4 0 .6l-.6.7c.5 1 1.3 1.7 2.3 2.2l.7-.7c.2-.2.4-.2.6-.1l1.8.9c.3.1.4.3.3.6-.1.7-.8 1.4-1.6 1.6-1 .2-2.4-.3-3.8-1.3-1.3-.9-2.4-2.3-2.7-3.4-.3-1 .1-2.1.7-2.7Z" fill="currentColor"/></svg>',
+      instagram: '<svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><rect x="3.5" y="3.5" width="17" height="17" rx="5" stroke="currentColor" stroke-width="1.7"/><circle cx="12" cy="12" r="4" stroke="currentColor" stroke-width="1.7"/><circle cx="17.5" cy="6.8" r="1" fill="currentColor"/></svg>',
+      website: '<svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><circle cx="12" cy="12" r="8.5" stroke="currentColor" stroke-width="1.7"/><path d="M3.8 12h16.4M12 3.5c2.2 2.3 3.3 5.1 3.3 8.5s-1.1 6.2-3.3 8.5C9.8 18.2 8.7 15.4 8.7 12s1.1-6.2 3.3-8.5Z" stroke="currentColor" stroke-width="1.5"/></svg>',
+      email: '<svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><rect x="3.5" y="5.5" width="17" height="13" rx="2" stroke="currentColor" stroke-width="1.7"/><path d="m4.5 7 7.5 6 7.5-6" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/></svg>'
+    };
+
+    const heroImage = document.getElementById("heroImage");
+    const thumbnailRow = document.getElementById("thumbnailRow");
+    const businessGrid = document.getElementById("businessGrid");
+    const quickSelect = document.getElementById("quickSelect");
+    const pageSize = 10;
+    let activeBusinessId = 1;
+    let activePhotoIndex = 0;
+    let currentPage = 1;
+    let filteredBusinesses = businesses;
+
+    function renderBusiness(id) {
+      const business = businesses.find((item) => item.id === id);
+      if (!business) return;
+      activeBusinessId = id;
+      activePhotoIndex = 0;
+
+      document.getElementById("categoryBadge").textContent = business.category;
+      document.getElementById("profileNumber").textContent = `EMPRENDIMIENTO ${String(id).padStart(2, "0")} / 30`;
+      document.getElementById("businessName").textContent = business.name;
+      document.getElementById("businessDescription").textContent = business.description;
+      heroImage.src = business.images[0];
+      heroImage.alt = `${business.name}, productos de ${business.category.toLowerCase()}`;
+      document.getElementById("photoCount").querySelector("span").textContent = `1 / ${business.images.length} fotos`;
+      thumbnailRow.innerHTML = business.images.map((image, index) => `
+        <button class="thumbnail" type="button" data-photo-index="${index}" aria-label="Ver foto ${index + 1}" aria-pressed="${index === 0}">
+          <img src="${image}" alt="" loading="lazy">
+        </button>
+      `).join("");
+      thumbnailRow.querySelectorAll(".thumbnail").forEach((button) => {
+        button.addEventListener("click", () => selectPhoto(Number(button.dataset.photoIndex)));
+      });
+
+      const links = [
+        { label: "WhatsApp", href: `https://wa.me/${business.whatsapp}`, icon: "whatsapp", external: true },
+        { label: "Instagram", href: `https://instagram.com/${business.instagram}`, icon: "instagram", external: true },
+        { label: "Sitio web", href: business.website, icon: "website", external: true },
+        { label: "Email", href: `mailto:${business.email}`, icon: "email", external: false }
+      ];
+      document.getElementById("socialLinks").innerHTML = links.map((link) =>
+        `<a class="social-link" href="${link.href}" ${link.external ? 'target="_blank" rel="noopener noreferrer"' : ""}>${icon[link.icon]}<span>${link.label}</span></a>`
+      ).join("");
+
+      quickSelect.value = String(id);
+      businessGrid.querySelectorAll(".business-card").forEach((card) => {
+        if (Number(card.dataset.businessId) === id) card.setAttribute("aria-current", "true");
+        else card.removeAttribute("aria-current");
+      });
+    }
+
+    function selectPhoto(index) {
+      const business = businesses.find((item) => item.id === activeBusinessId);
+      if (!business || !business.images[index]) return;
+      activePhotoIndex = index;
+      heroImage.src = business.images[index];
+      document.getElementById("photoCount").querySelector("span").textContent = `${index + 1} / ${business.images.length} fotos`;
+      thumbnailRow.querySelectorAll(".thumbnail").forEach((button, buttonIndex) =>
+        button.setAttribute("aria-pressed", String(buttonIndex === index))
+      );
+    }
+
+    function renderCatalog(items = filteredBusinesses, page = currentPage) {
+      filteredBusinesses = items;
+      const pageCount = Math.ceil(items.length / pageSize);
+      currentPage = Math.min(Math.max(page, 1), Math.max(pageCount, 1));
+      const pagination = document.getElementById("catalogPagination");
+
+      if (items.length === 0) {
+        businessGrid.innerHTML = '<div class="empty-state">No encontramos emprendimientos con esa búsqueda.</div>';
+        pagination.innerHTML = '<span class="catalog-count">0 emprendimientos</span>';
+        return;
+      }
+      const start = (currentPage - 1) * pageSize;
+      const pageItems = items.slice(start, start + pageSize);
+      businessGrid.innerHTML = pageItems.map((business) => `
+        <button class="business-card" type="button" data-business-id="${business.id}" aria-label="Ver ${business.name}">
+          <img src="${business.images[0]}" alt="" loading="lazy">
+          <span class="business-card-copy">
+            <small>${business.category}</small>
+            <strong>${business.name}</strong>
+          </span>
+        </button>
+      `).join("");
+      businessGrid.querySelectorAll(".business-card").forEach((card) => {
+        card.addEventListener("click", () => {
+          renderBusiness(Number(card.dataset.businessId));
+          document.getElementById("ficha").scrollIntoView({ behavior: "smooth", block: "start" });
+        });
+      });
+      businessGrid.querySelector(`[data-business-id="${activeBusinessId}"]`)?.setAttribute("aria-current", "true");
+
+      const end = Math.min(start + pageSize, items.length);
+      const pageButtons = Array.from({ length: pageCount }, (_, index) => {
+        const pageNumber = index + 1;
+        return `<button class="page-button" type="button" data-page="${pageNumber}" aria-label="Página ${pageNumber}" ${pageNumber === currentPage ? 'aria-current="page"' : ""}>${pageNumber}</button>`;
+      }).join("");
+      pagination.innerHTML = `
+        <span class="catalog-count">Mostrando ${start + 1}–${end} de ${items.length} emprendimientos</span>
+        <nav class="pagination-controls" aria-label="Páginas del catálogo">
+          <button class="page-button" type="button" data-page="${currentPage - 1}" aria-label="Página anterior" ${currentPage === 1 ? "disabled" : ""}>
+            <svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="m15 18-6-6 6-6" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          </button>
+          ${pageButtons}
+          <button class="page-button" type="button" data-page="${currentPage + 1}" aria-label="Página siguiente" ${currentPage === pageCount ? "disabled" : ""}>
+            <svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="m9 18 6-6-6-6" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          </button>
+        </nav>
+      `;
+      pagination.querySelectorAll("[data-page]").forEach((button) => {
+        button.addEventListener("click", () => renderCatalog(filteredBusinesses, Number(button.dataset.page)));
+      });
+    }
+
+    businesses.forEach((business) => {
+      const option = document.createElement("option");
+      option.value = String(business.id);
+      option.textContent = `${String(business.id).padStart(2, "0")} · ${business.name}`;
+      quickSelect.append(option);
+    });
+
+    quickSelect.addEventListener("change", (event) => renderBusiness(Number(event.target.value)));
+    document.getElementById("previousBusiness").addEventListener("click", () =>
+      renderBusiness(activeBusinessId === 1 ? businesses.length : activeBusinessId - 1)
+    );
+    document.getElementById("nextBusiness").addEventListener("click", () =>
+      renderBusiness(activeBusinessId === businesses.length ? 1 : activeBusinessId + 1)
+    );
+    document.getElementById("searchInput").addEventListener("input", (event) => {
+      const query = event.target.value.trim().toLocaleLowerCase("es");
+      renderCatalog(businesses.filter((business) =>
+        `${business.name} ${business.category}`.toLocaleLowerCase("es").includes(query)
+      ), 1);
+    });
+
+    renderCatalog();
+    renderBusiness(activeBusinessId);
+  </script>
 </body>
 </html>
