@@ -1,11 +1,440 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="es">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <meta name="theme-color" content="#f7f6f1">
+    <meta name="description" content="Descubrí emprendimientos locales, sus productos y las historias detrás de cada proyecto.">
+    <title>Emprendimientos — Hecho Cerca</title>
+    <link rel="stylesheet" href="Style.css">
 </head>
 <body>
-    
+    <main>
+        <section class="intro" aria-labelledby="page-title">
+            <div>
+                <p class="eyebrow">Emprendimientos locales</p>
+                <h1 id="page-title">Lo bueno empieza <span>cerca.</span></h1>
+            </div>
+            <p class="intro-copy">Conocé a las personas que crean, producen y hacen crecer ideas en nuestra comunidad.</p>
+        </section>
+
+        <section class="catalog" id="emprendimientos" aria-labelledby="catalog-title">
+            <div class="catalog-top">
+                <h2 class="catalog-title" id="catalog-title">Encontrá tu próximo favorito <span>— a tu manera</span></h2>
+                <div class="filters" role="search">
+                    <label class="search-wrap">
+                        <span class="visually-hidden">Buscar emprendimiento por nombre</span>
+                        <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
+                            <circle cx="10.8" cy="10.8" r="6.8" stroke="currentColor" stroke-width="1.7"/>
+                            <path d="m16 16 4.3 4.3" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"/>
+                        </svg>
+                        <input class="search-input" id="search" type="search" placeholder="Buscar por nombre..." autocomplete="off">
+                    </label>
+                    <label>
+                        <span class="visually-hidden">Filtrar por rubro</span>
+                        <select class="category-select" id="category-filter">
+                            <option value="all">Todos los rubros</option>
+                        </select>
+                    </label>
+                </div>
+            </div>
+
+            <div class="results-bar">
+                <p class="results-count" id="results-count" aria-live="polite"></p>
+                <span class="results-hint">Explorá proyectos hechos con dedicación.</span>
+            </div>
+
+            <nav class="popular-filters" id="popular-filters" aria-label="Rubros más buscados">
+                <span class="popular-label">Más buscados:</span>
+            </nav>
+
+            <div class="card-grid" id="card-grid"></div>
+            <div class="empty-state" id="empty-state" hidden>
+                <span class="empty-icon" aria-hidden="true">
+                    <svg viewBox="0 0 24 24" fill="none">
+                        <circle cx="10.8" cy="10.8" r="6.8" stroke="currentColor" stroke-width="1.7"/>
+                        <path d="m16 16 4.3 4.3" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"/>
+                    </svg>
+                </span>
+                <h3>No encontramos coincidencias</h3>
+                <p>Probá con otro nombre o elegí un rubro diferente.</p>
+            </div>
+            <nav class="pagination" id="pagination" aria-label="Páginas de emprendimientos">
+                <button class="page-button" id="previous-page" type="button" aria-label="Página anterior">← Anterior</button>
+                <span class="page-status" id="page-status" aria-live="polite"></span>
+                <button class="page-button" id="next-page" type="button" aria-label="Página siguiente">Siguiente →</button>
+            </div>
+        </section>
+    </main>
+
+    <dialog class="detail-dialog" id="detail-dialog" aria-labelledby="dialog-title">
+        <button class="dialog-close" id="dialog-close" type="button" aria-label="Cerrar detalle">×</button>
+        <div class="dialog-content">
+            <p class="dialog-category" id="dialog-category"></p>
+            <h2 id="dialog-title"></h2>
+            <p class="dialog-description" id="dialog-description"></p>
+            <p class="dialog-note">Esta es una ficha de muestra. Próximamente vas a encontrar acá toda la información y las redes sociales del emprendimiento.</p>
+        </div>
+    </dialog>
+
+    <script>
+        const emprendimientos = [
+            {
+                nombre: "Miga Estudio",
+                rubro: "Alimentos",
+                descripcion: "Pan de masa madre y cosas ricas, hechas sin apuro y con ingredientes de estación.",
+                imagen: "photo-1585478259715-876acc5be8eb",
+                alt: "Pan artesanal recién horneado"
+            },
+            {
+                nombre: "Barro & Alma",
+                rubro: "Diseño y decoración",
+                descripcion: "Piezas de cerámica hechas a mano para sumar calidez a todos los días.",
+                imagen: "photo-1578749556568-bc2c40e68b61",
+                alt: "Piezas de cerámica artesanal"
+            },
+            {
+                nombre: "Raíz Botánica",
+                rubro: "Bienestar",
+                descripcion: "Fórmulas botánicas y cuidado natural inspirados en lo simple.",
+                imagen: "photo-1608571423902-eed4a5ad8108",
+                alt: "Productos botánicos para el cuidado personal"
+            },
+            {
+                nombre: "Nudo Sur",
+                rubro: "Indumentaria",
+                descripcion: "Accesorios tejidos a mano, con colores nobles y mucho carácter.",
+                imagen: "photo-1558618666-fcd25c85cd64",
+                alt: "Accesorios textiles hechos a mano"
+            },
+            {
+                nombre: "Casa Cítrica",
+                rubro: "Alimentos",
+                descripcion: "Conservas, mermeladas y sabores de estación para compartir.",
+                imagen: "photo-1563805042-7684c019e1cb",
+                alt: "Frascos de conservas artesanales"
+            },
+            {
+                nombre: "Tierra Lenta",
+                rubro: "Diseño y decoración",
+                descripcion: "Objetos de hogar con materiales nobles y una mirada sustentable.",
+                imagen: "photo-1616486338812-3dadae4b4ace",
+                alt: "Decoración cálida para el hogar"
+            },
+            {
+                nombre: "Lumbre Velas",
+                rubro: "Bienestar",
+                descripcion: "Velas de soja y aromas suaves para transformar cualquier rincón.",
+                imagen: "photo-1603006905003-be475563bc59",
+                alt: "Velas artesanales encendidas"
+            },
+            {
+                nombre: "Punto y Trama",
+                rubro: "Indumentaria",
+                descripcion: "Prendas tejidas en series pequeñas, pensadas para durar.",
+                imagen: "photo-1483985988355-763728e1935b",
+                alt: "Prendas de indumentaria de diseño"
+            },
+            {
+                nombre: "Dulce Nativo",
+                rubro: "Alimentos",
+                descripcion: "Pastelería artesanal con recetas de siempre y un toque propio.",
+                imagen: "photo-1486427944299-d1955d23e34d",
+                alt: "Pastelería artesanal"
+            },
+            {
+                nombre: "Lino Casa",
+                rubro: "Diseño y decoración",
+                descripcion: "Textiles naturales para vestir la mesa y disfrutar lo cotidiano.",
+                imagen: "photo-1600210492486-724fe5c67fb0",
+                alt: "Textiles naturales en un espacio acogedor"
+            },
+            {
+                nombre: "Ritual de Campo",
+                rubro: "Bienestar",
+                descripcion: "Infusiones de hierbas seleccionadas para hacer una pausa.",
+                imagen: "photo-1544787219-7f47ccb76574",
+                alt: "Infusión de hierbas servida en una taza"
+            },
+            {
+                nombre: "Tinta Viva",
+                rubro: "Arte e ilustración",
+                descripcion: "Ilustraciones originales que llenan de color objetos y espacios.",
+                imagen: "photo-1513364776144-60967b0f800f",
+                alt: "Materiales y obras de ilustración"
+            },
+            {
+                nombre: "Monte Jabones",
+                rubro: "Bienestar",
+                descripcion: "Jabones vegetales elaborados en pequeños lotes con ingredientes nobles.",
+                imagen: "photo-1600857544200-b2f666a9a2ec",
+                alt: "Jabones artesanales de distintos colores"
+            },
+            {
+                nombre: "Lana Mansa",
+                rubro: "Indumentaria",
+                descripcion: "Accesorios tejidos con lana local y técnicas tradicionales.",
+                imagen: "photo-1452860606245-08befc0ff44b",
+                alt: "Hilados y tejidos de lana"
+            },
+            {
+                nombre: "Oliva Taller",
+                rubro: "Diseño y decoración",
+                descripcion: "Objetos de madera diseñados y terminados uno por uno.",
+                imagen: "photo-1490312278390-ab64016e0aa9",
+                alt: "Objetos de madera hechos a mano"
+            },
+            {
+                nombre: "La Huertita",
+                rubro: "Alimentos",
+                descripcion: "Productos frescos de huerta y conservas de temporada.",
+                imagen: "photo-1540420773420-3366772f4999",
+                alt: "Vegetales frescos de estación"
+            },
+            {
+                nombre: "Papel de Luna",
+                rubro: "Arte e ilustración",
+                descripcion: "Papelería ilustrada para celebrar los pequeños momentos.",
+                imagen: "photo-1455390582262-044cdead277a",
+                alt: "Cuaderno y papelería de diseño"
+            },
+            {
+                nombre: "Sur de Miel",
+                rubro: "Alimentos",
+                descripcion: "Miel pura de producción local, cosechada con cuidado.",
+                imagen: "photo-1587049352851-8d4e89133924",
+                alt: "Miel natural servida en un frasco"
+            },
+            {
+                nombre: "Manos de Arcilla",
+                rubro: "Diseño y decoración",
+                descripcion: "Vajilla artesanal con formas orgánicas y esmaltes únicos.",
+                imagen: "photo-1493106641515-6b5631de4bb9",
+                alt: "Vajilla artesanal de cerámica"
+            },
+            {
+                nombre: "Hebra Urbana",
+                rubro: "Indumentaria",
+                descripcion: "Bolsos y accesorios textiles para acompañar cada día.",
+                imagen: "photo-1548036328-c9fa89d128fa",
+                alt: "Bolso de diseño artesanal"
+            },
+            {
+                nombre: "Calma Esencial",
+                rubro: "Bienestar",
+                descripcion: "Aromas y blends botánicos para regalarte un momento propio.",
+                imagen: "photo-1608571423902-eed4a5ad8108",
+                alt: "Esencias y productos naturales"
+            },
+            {
+                nombre: "Grano Noble",
+                rubro: "Alimentos",
+                descripcion: "Café de especialidad tostado en pequeñas partidas.",
+                imagen: "photo-1445116572660-236099ec97a0",
+                alt: "Café recién preparado"
+            },
+            {
+                nombre: "Trazo Taller",
+                rubro: "Arte e ilustración",
+                descripcion: "Láminas y piezas gráficas inspiradas en la vida cotidiana.",
+                imagen: "photo-1513364776144-60967b0f800f",
+                alt: "Espacio de trabajo de una artista"
+            },
+            {
+                nombre: "Nido Textil",
+                rubro: "Diseño y decoración",
+                descripcion: "Almohadones y mantas tejidos para hacer más cálido tu hogar.",
+                imagen: "photo-1618221195710-dd6b41faaea6",
+                alt: "Textiles decorativos para el hogar"
+            }
+        ];
+
+        const pageSize = 6;
+        const searchInput = document.querySelector("#search");
+        const categoryFilter = document.querySelector("#category-filter");
+        const popularFilters = document.querySelector("#popular-filters");
+        const cardGrid = document.querySelector("#card-grid");
+        const resultsCount = document.querySelector("#results-count");
+        const emptyState = document.querySelector("#empty-state");
+        const pagination = document.querySelector("#pagination");
+        const previousPageButton = document.querySelector("#previous-page");
+        const nextPageButton = document.querySelector("#next-page");
+        const pageStatus = document.querySelector("#page-status");
+        const detailDialog = document.querySelector("#detail-dialog");
+        let currentPage = 0;
+        let pageDirection = "forward";
+
+        const arrowIcon = '<svg viewBox="0 0 20 20" fill="none" aria-hidden="true"><path d="M4 10h11m-4.5-4.5L15 10l-4.5 4.5" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>';
+
+        function normalizedText(value) {
+            return value.normalize("NFD").replace(/[\u0300-\u036f]/g, "").toLocaleLowerCase("es");
+        }
+
+        function getFilteredItems() {
+            const query = normalizedText(searchInput.value.trim());
+            const category = categoryFilter.value;
+
+            return emprendimientos.filter((item) => {
+                const matchesName = normalizedText(item.nombre).includes(query);
+                const matchesCategory = category === "all" || item.rubro === category;
+                return matchesName && matchesCategory;
+            });
+        }
+
+        function openDetail(item) {
+            document.querySelector("#dialog-category").textContent = item.rubro;
+            document.querySelector("#dialog-title").textContent = item.nombre;
+            document.querySelector("#dialog-description").textContent = item.descripcion;
+            detailDialog.showModal();
+        }
+
+        function createCard(item, index) {
+            const article = document.createElement("article");
+            article.className = "card";
+            article.style.animationDelay = `${Math.min(index, pageSize - 1) * 35}ms`;
+
+            const imageWrap = document.createElement("div");
+            imageWrap.className = "card-image-wrap";
+            const image = document.createElement("img");
+            image.className = "card-image";
+            image.src = `https://images.unsplash.com/${item.imagen}?auto=format&fit=crop&w=720&q=80`;
+            image.alt = item.alt;
+            image.loading = "lazy";
+            imageWrap.append(image);
+
+            const category = document.createElement("span");
+            category.className = "card-category";
+            category.textContent = item.rubro;
+            imageWrap.append(category);
+
+            const content = document.createElement("div");
+            content.className = "card-content";
+            const title = document.createElement("h3");
+            title.textContent = item.nombre;
+            const description = document.createElement("p");
+            description.className = "card-description";
+            description.textContent = item.descripcion;
+            const link = document.createElement("button");
+            link.className = "card-link";
+            link.type = "button";
+            link.innerHTML = `Ver emprendimiento ${arrowIcon}`;
+            link.addEventListener("click", () => openDetail(item));
+
+            content.append(title, description, link);
+            article.append(imageWrap, content);
+            return article;
+        }
+
+        function render() {
+            const filteredItems = getFilteredItems();
+            const pageCount = Math.ceil(filteredItems.length / pageSize);
+            currentPage = Math.min(currentPage, Math.max(pageCount - 1, 0));
+            const startIndex = currentPage * pageSize;
+            const visibleItems = filteredItems.slice(startIndex, startIndex + pageSize);
+
+            cardGrid.classList.remove("page-forward", "page-backward");
+            cardGrid.classList.add(`page-${pageDirection}`);
+            cardGrid.replaceChildren(...visibleItems.map(createCard));
+
+            const firstResult = filteredItems.length ? startIndex + 1 : 0;
+            const lastResult = startIndex + visibleItems.length;
+            resultsCount.innerHTML = `<strong>Mostrando ${firstResult}–${lastResult} de ${filteredItems.length}</strong> emprendimientos`;
+            emptyState.hidden = filteredItems.length > 0;
+            cardGrid.hidden = filteredItems.length === 0;
+            pagination.hidden = pageCount <= 1;
+            pageStatus.textContent = `Página ${currentPage + 1} de ${pageCount}`;
+            previousPageButton.disabled = currentPage === 0;
+            nextPageButton.disabled = currentPage >= pageCount - 1;
+        }
+
+        const categoryCounts = emprendimientos.reduce((counts, item) => {
+            counts.set(item.rubro, (counts.get(item.rubro) || 0) + 1);
+            return counts;
+        }, new Map());
+        const categories = [...categoryCounts.keys()].sort((a, b) => {
+            const countDifference = categoryCounts.get(b) - categoryCounts.get(a);
+            return countDifference || a.localeCompare(b, "es");
+        });
+
+        categories.forEach((category) => {
+            const option = document.createElement("option");
+            option.value = category;
+            option.textContent = category;
+            categoryFilter.append(option);
+
+            const quickFilter = document.createElement("button");
+            quickFilter.className = "popular-filter";
+            quickFilter.type = "button";
+            quickFilter.dataset.category = category;
+            quickFilter.textContent = category;
+            quickFilter.setAttribute("aria-pressed", "false");
+            quickFilter.addEventListener("click", () => {
+                categoryFilter.value = category;
+                currentPage = 0;
+                updatePopularFilters();
+                render();
+            });
+            popularFilters.append(quickFilter);
+        });
+
+        const allFilter = document.createElement("button");
+        allFilter.className = "popular-filter";
+        allFilter.type = "button";
+        allFilter.dataset.category = "all";
+        allFilter.textContent = "Todos";
+        allFilter.setAttribute("aria-pressed", "true");
+        allFilter.addEventListener("click", () => {
+            categoryFilter.value = "all";
+            currentPage = 0;
+            updatePopularFilters();
+            render();
+        });
+        popularFilters.insertBefore(allFilter, popularFilters.children[1]);
+
+        function updatePopularFilters() {
+            popularFilters.querySelectorAll(".popular-filter").forEach((button) => {
+                button.setAttribute("aria-pressed", String(button.dataset.category === categoryFilter.value));
+            });
+        }
+
+        searchInput.addEventListener("input", () => {
+            currentPage = 0;
+            render();
+        });
+
+        categoryFilter.addEventListener("change", () => {
+            currentPage = 0;
+            render();
+        });
+
+        previousPageButton.addEventListener("click", () => {
+            if (currentPage > 0) {
+                pageDirection = "backward";
+                currentPage -= 1;
+                render();
+            }
+        });
+
+        nextPageButton.addEventListener("click", () => {
+            const pageCount = Math.ceil(getFilteredItems().length / pageSize);
+            if (currentPage < pageCount - 1) {
+                pageDirection = "forward";
+                currentPage += 1;
+                render();
+            }
+        });
+
+        categoryFilter.addEventListener("change", updatePopularFilters);
+
+        document.querySelector("#dialog-close").addEventListener("click", () => detailDialog.close());
+        detailDialog.addEventListener("click", (event) => {
+            if (event.target === detailDialog) {
+                detailDialog.close();
+            }
+        });
+
+        updatePopularFilters();
+        render();
+    </script>
 </body>
 </html>
